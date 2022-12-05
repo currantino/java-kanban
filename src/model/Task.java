@@ -6,6 +6,12 @@ public class Task {
     private String description;
     private Status status;
 
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+    }
+
     public Task(long id, String name, String description, Status status) {
         this.id = id;
         this.name = name;
