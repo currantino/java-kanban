@@ -5,6 +5,7 @@ import model.Status;
 import model.Subtask;
 import model.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,11 @@ public class Manager {
     }
 
     public void removeSubtaskById(long id) {
-        subtasks.remove(id);
+        Subtask subtask = subtasks.remove(id);
+        if (subtask != null) {
+            Epic epic = epics.get(subtask.getEpicId());
+            epic.getSubtasksId().remove(id);
+        }
     }
 
     public void removeEpicById(long id) {
@@ -76,7 +81,7 @@ public class Manager {
     }
 
     public void addTask(Task task) {
-        task.setId(getTaskNextId());
+        task.setId(getNextTaskId());
         tasks.put(task.getId(), task);
     }
 
@@ -91,6 +96,11 @@ public class Manager {
             epic.setStatus(calculateStatusOfEpic(epic));
         }
 
+    }
+
+    public void addEpic(Epic epic) {
+        epic.setId(getNextEpicId());
+        epics.put(epic.getId(), epic);
     }
 
     private Status calculateStatusOfEpic(Epic epic) {
@@ -115,11 +125,7 @@ public class Manager {
     }
 
 
-    public void addEpic(Epic epic) {
-        epic.setId(getNextEpicId());
-    }
-
-    private long getTaskNextId() {
+    private long getNextTaskId() {
         return nextTaskId++;
     }
 
@@ -130,5 +136,31 @@ public class Manager {
     private long getNextEpicId() {
         return nextEpicId++;
     }
+
+    public void updateTask(Task task) {
+        tasks.replace(task.getId(), task);
+    }
+
+    public void updateSubtask(Subtask subtask) {
+        long epicId = subtask.getEpicId();
+        if (epics.containsKey(epicId)) {
+            Epic epic = epics.get(epicId);
+            subtasks.replace(subtask.getId(), subtask);
+            epic.setStatus(calculateStatusOfEpic(epic));
+        }
+    }
+
+    public void updateEpic(Epic epic) {
+        epics.replace(epic.getId(), epic);
+    }
+
+    public List<Subtask> getSubtasksOfEpic(Epic epic) {
+        final List<Subtask> subtasksOfEpic = new ArrayList<>();
+        for (Long id : epic.getSubtasksId()) {
+            subtasksOfEpic.add(subtasks.get(id));
+        }
+        return subtasksOfEpic;
+    }
+
 
 }
