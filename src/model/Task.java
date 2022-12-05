@@ -50,4 +50,29 @@ public class Task {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+
+        Task task = (Task) o;
+
+        return getId() == task.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
+    }
 }
