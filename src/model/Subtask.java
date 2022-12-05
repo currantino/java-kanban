@@ -24,4 +24,15 @@ public class Subtask extends Task {
     public void setEpicId(long epicId) {
         this.epicId = epicId;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + '{' +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
+                ", epicId=" + getEpicId() +
+                '}';
+    }
 }

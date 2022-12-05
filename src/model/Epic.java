@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
@@ -7,10 +8,12 @@ public class Epic extends Task {
 
     public Epic(String name, String description) {
         super(name, description);
+        subtasksId = new ArrayList<>();
     }
 
-    public Epic(long id, String name, String description, Status status) {
-        super(id, name, description, status);
+    public Epic(long id, String name, String description) {
+        super(id, name, description);
+        subtasksId = new ArrayList<>();
     }
 
     public void addSubtaskId(long id) {
@@ -23,5 +26,16 @@ public class Epic extends Task {
 
     public void setSubtasksId(List<Long> subtasksId) {
         this.subtasksId = subtasksId;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + '{' +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
+                ", subtasksId=" + getSubtasksId() +
+                '}';
     }
 }
